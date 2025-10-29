@@ -1,6 +1,6 @@
 //Student 2 Name:
 #include <vector>
-#include <iostream> //IWYU: pragma keep
+#include <iostream>
 #include <iomanip>
 #include <cstdlib>
 #include <cmath>
@@ -18,17 +18,75 @@ void filter2(vector<vector<vector<int>>> &vec) {
 
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
-			//DEMO CODE BEGIN
-			//How far are we from the center?
-			const double diag_length = hypot(rows/2.0,cols/2.0); //How many pixels is the diagonal from the center of the image to a corner?
-			double distance = hypot(i-(rows/2.0),j-(cols/2.0));
-			double brightness = 1 - 2*(distance/diag_length); //0 brightness at corners, 200% brightness in middle
-			//cout << "i: " << i << " j: " << j << " bright: " << brightness << endl;
-			//cout << "diag_length: " << diag_length << " distance: " << distance << endl;
-			for (int k = 0; k < colors; k++) {
-				vec.at(i).at(j).at(k) *= brightness; //Lighten or darken each color by its distance from the center
+			
+			int r = vec.at(i).at(j).at(RED);
+			int g = vec.at(i).at(j).at(GREEN);
+			int b = vec.at(i).at(j).at(BLUE);
+			
+			if (i < 800 and j < 800) {
+			  vec.at(i).at(j).at(RED) += 55;
+			  vec.at(i).at(j).at(GREEN) += 0;
+			  vec.at(i).at(j).at(BLUE) += 55;
 			}
-			//DEMO CODE END
+									
+				
+			if ((i < 800) and (j < 1600 and j > 800)) {
+			  vec.at(i).at(j).at(RED) += 0;
+			  vec.at(i).at(j).at(GREEN) += 55;
+			  vec.at(i).at(j).at(BLUE) += 100;
+			}
+			
+			
+			if (i < 800 and (j < 2400 and j > 1600)) {
+			  vec.at(i).at(j).at(RED) += 55;
+			  vec.at(i).at(j).at(GREEN) += 0;
+			  vec.at(i).at(j).at(BLUE) += 55;
+			}
+			
+			
+			if ((i < 1600 and i > 800) and j < 800) {
+			  vec.at(i).at(j).at(RED) += 0;
+			  vec.at(i).at(j).at(GREEN) += 55;
+			  vec.at(i).at(j).at(BLUE) += 100;
+			}
+
+			if ((i < 1600 and i > 800) and j > 1600) {
+			  vec.at(i).at(j).at(RED) += 0;
+			  vec.at(i).at(j).at(GREEN) += 55;
+			  vec.at(i).at(j).at(BLUE) += 100;
+			}
+		
+
+			if ((i < 2400 and i > 1600) and j < 800) {
+			  vec.at(i).at(j).at(RED) += 55;
+			  vec.at(i).at(j).at(GREEN) += 0;
+			  vec.at(i).at(j).at(BLUE) += 55;
+			}
+
+			if ((i < 2400 and i > 1600) and (j < 1600 and j > 800)) {
+			  vec.at(i).at(j).at(RED) += 0;
+			  vec.at(i).at(j).at(GREEN) += 55;
+			  vec.at(i).at(j).at(BLUE) += 100;
+			}
+
+
+			if ((i < 2400 and i > 1600) and (j < 2400 and j > 1600)) {
+			  vec.at(i).at(j).at(RED) += 55;
+			  vec.at(i).at(j).at(GREEN) += 0;
+			  vec.at(i).at(j).at(BLUE) += 85;
+			}
+
+			if ((i < 825 and i > 775) or (i < 1625 and i > 1575) or (i < 50) or (i > 2350)) {
+			  vec.at(i).at(j).at(RED) = 0;
+			  vec.at(i).at(j).at(GREEN) = 0;
+			  vec.at(i).at(j).at(BLUE) = 0;
+			}
+
+			if ((j < 825 and j > 775) or (j < 1625 and j > 1575) or (j < 50) or (j > 2350)) {
+			  vec.at(i).at(j).at(RED) = 0;
+			  vec.at(i).at(j).at(GREEN) = 0;
+			  vec.at(i).at(j).at(BLUE) = 0;
+			}
 		}
 	}
 }

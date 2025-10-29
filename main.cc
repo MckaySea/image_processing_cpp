@@ -111,11 +111,11 @@ int main(int argc, char **argv) {
 		 end_time = clock();
    		 cerr << "Filter 1 time: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n"; 
 
-		 Apply filter2 inside the loop as part of the animation
-		 start_time = clock();
-		 filter2(vec);
-		 end_time = clock();
-   		 cerr << "Filter 2 time: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
+		 // Apply filter2 inside the loop as part of the animation
+		//  start_time = clock();
+		//  filter2(vec);
+		//  end_time = clock();
+   		//  cerr << "Filter 2 time: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
 
    		 start_time = clock();
     	 vec_to_image(image, vec, cols, rows);
