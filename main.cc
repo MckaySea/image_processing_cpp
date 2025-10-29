@@ -19,7 +19,11 @@ using namespace cimg_library;
 using namespace std;
 
 //Student1 will write this in the file filter1.cc
-void filter1(vector<vector<vector<int>>> &vec);
+void filter1(vector<vector<vector<int>>> &vec, int frame_num,
+             const vector<vector<vector<int>>> &vec2,
+             const vector<vector<vector<int>>> &vec3);
+
+void filter_text(vector<vector<vector<int>>> &vec, const vector<vector<vector<int>>> &text_img);
 
 //Student2 will write this in the file filter2.cc
 void filter2(vector<vector<vector<int>>> &vec);
@@ -74,34 +78,54 @@ int main(int argc, char **argv) {
 		CImg<unsigned char> image2;
 		if (argc > 2) image2.load(argv[2]);
 
+		CImg<unsigned char> image3;
+		if (argc > 3) image3.load(argv[3]);
+
 		int cols = image.width(); 
 		int rows = image.height();
 
 		int cols2 = image2.width();
 		int rows2 = image2.height();
-		
+
+		int cols3 = image3.width();
+   	    int rows3 = image3.height();
 		//Create a new 3D vector to pass to the students' image filter code
 		//Even though it is of ints, it is really uint8_t's, any value over 255 will cap at 255
 		vector<vector<vector<int>>> vec(cols,vector<vector<int>>(rows,vector<int>(COLORS)));
 		vector<vector<vector<int>>> vec2(cols2,vector<vector<int>>(rows2,vector<int>(COLORS)));
+		vector<vector<vector<int>>> original_vec(cols,vector<vector<int>>(rows,vector<int>(COLORS)));
+		vector<vector<vector<int>>> vec3(cols3,vector<vector<int>>(rows3,vector<int>(COLORS)));
+		image_to_vec(image, original_vec, cols, rows);
 		image_to_vec(image,vec,cols,rows); //Copy data from image to vec to make it easier on students
 		image_to_vec(image2,vec2,cols2,rows2); //Copy data from image2 to vec2 to make it easier on students
+		image_to_vec(image3, vec3, cols3, rows3);
 		clock_t end_time = clock();
 		cerr << "Image load time: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
 
 		//PHASE 2 - Run Student 1's Code
-		start_time = clock();
-		filter1(vec); 
-		end_time = clock();
-		cerr << "Filter 1 time: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
+		const int TOTAL_FRAMES = 100;
+		for(int frame_num = 0; frame_num < TOTAL_FRAMES; frame_num++) {
+		 vec = original_vec;
+		 start_time = clock();
+		 filter1(vec,frame_num, vec2, vec3);
+		 end_time = clock();
+   		 cerr << "Filter 1 time: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n"; 
 
-		//Save the file after the first filter is run
-		start_time = clock();
-		vec_to_image(image,vec,cols,rows); //Copy from the vec to the image object
-		image.save_png("filter1.png"); //Use this for higher quality output
-		//image.save_jpeg("filter1.jpg", 80); //Output result after filter 1 with 80% quality
-		end_time = clock();
-		cerr << "Time to write filter1.jpg: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
+		 Apply filter2 inside the loop as part of the animation
+		 start_time = clock();
+		 filter2(vec);
+		 end_time = clock();
+   		 cerr << "Filter 2 time: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
+
+   		 start_time = clock();
+    	 vec_to_image(image, vec, cols, rows);
+    	 char filename[32];
+     	 sprintf(filename, "frame%03d.png", frame_num);
+         image.save_png(filename);
+
+   		 end_time = clock();
+   		 cerr << "Time to write " << filename << ": " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n"; 
+		}
 
 		//PHASE 3 - Run Student 2's Code
 		start_time = clock();
