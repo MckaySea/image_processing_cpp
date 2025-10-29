@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
 		image.save_png("filter1.png"); //Use this for higher quality output
 		//image.save_jpeg("filter1.jpg", 80); //Output result after filter 1 with 80% quality
 		end_time = clock();
-		cerr << "Time to write filter1.jpg: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
+		cerr << "Time to write filter1.png: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
 
 		//PHASE 3 - Run Student 2's Code
 		start_time = clock();
@@ -113,9 +113,9 @@ int main(int argc, char **argv) {
 		image.save_png("filter2.png"); //Higher quality output
 		//image.save_jpeg("filter2.jpg", 80); //Output result after filter 2
 		end_time = clock();
-		cerr << "Time to write filter2.jpg: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
+		cerr << "Time to write filter2.png: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
 
-		//PHASE 4 - Run Student 3's Code, if they exist. If they exist, uncomment out this code block
+		/*PHASE 4 - Run Student 3's Code, if they exist. If they exist, uncomment out this code block
 		   start_time = clock();
 		  // filter3(vec,vec2); 
 		   end_time = clock();
@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
 		end_time = clock();
 		cerr << "Time to write filter3.jpg: " << double (end_time - start_time) / CLOCKS_PER_SEC << " secs\n";
 	//}
-	/*
+	
 	    catch (...) {
 		cout << "Error opening file\n";
 		exit(EXIT_FAILURE);
